@@ -75,4 +75,4 @@ async def dice(ctx, amount: int = 1):
     await ctx.message.channel.send(embed=diceEmbed)
 
 
-client.run('NzUxMDIxMzQ1ODE4NTQyMTIw.X1DBIg.LKDNb3Jyu1h5DODU5DD9SmKEljI')
+client.run('')
