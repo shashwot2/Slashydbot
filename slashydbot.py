@@ -125,9 +125,8 @@ async def ban(ctx, member: discord.Member, *, reason="Ask the admin"):
 # @client.command(name="blackjack", help= "plays blackjack")
 # async def blackjack(ctx):
 
+
 # This function returns the roman numeral's value
-
-
 @client.command(name="roman", help="roman converter")
 # dervied from https://github.com/shashwot2/vigilant-succotash/blob/main/Romannumerals.py
 async def roman(ctx, num):
