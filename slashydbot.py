@@ -126,10 +126,16 @@ async def ban(ctx, member: discord.Member, *, reason="Ask the admin"):
 #TODO: BLACKJACK
 # @client.command(name="blackjack", help= "plays blackjack")
 # async def blackjack(ctx):
-#    ctx.message.channel.send("Enter an input: s = stand , h = hit)"
-  #   total = 0
- #    total = 
-#   a = {1:"A",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"J",12:"Q",13:"K"}
+#    a = {1:"A",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"J",12:"Q",13:"K"}
+#    while running = 1:
+#       dtotal = 0
+#       ptotal = 0
+#       pcardno, pcard = random.choice(list(d.values()))
+#       ptotal = ptotal + pcardno
+#       ctx.message.channel.send("Enter an input: s = stand , h = hit")
+#       
+#       total = 
+#   
 #   random(1,13)
 
 
