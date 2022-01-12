@@ -63,9 +63,13 @@ async def play(ctx, url):
         await ctx.send("Bot is already playing")
         return
 
+#@client.command(name = "pause", help = "pauses the song")
+#async def pause(ctx):
+#    voice_client = ctx.message.voice_client
+    #if 
+
+
 # Displays currently idle and the game playing
-
-
 @client.event
 async def on_ready():
     print('We have loggin as {0.user}'.format(client))
@@ -120,19 +124,22 @@ async def kick(ctx, member: discord.Member):
 @commands.has_permissions(kick_members=True)
 async def ban(ctx, member: discord.Member, *, reason="Ask the admin"):
     await member.ban(reason=reason)
-    await ctx.send("User {x} has been banned".format(x=member.display_name))
+    await ctx.send("User {x} has been banned".format(x = member.display_name))
     await member.send("You are banned because{}".format(reason))
+
 
 #TODO: BLACKJACK
 # @client.command(name="blackjack", help= "plays blackjack")
 # async def blackjack(ctx):
 #    a = {1:"A",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"J",12:"Q",13:"K"}
 #    while running = 1:
+#  
 #       dtotal = 0
 #       ptotal = 0
 #       pcardno, pcard = random.choice(list(d.values()))
 #       ptotal = ptotal + pcardno
-#       ctx.message.channel.send("Enter an input: s = stand , h = hit")
+#       ctx.message.channel.send("Enter an input: s = stand , h = hit", Reply timeout is 30 seconds)
+#       msg = await client.wait_for("message", check = check, timeout = 30)
 #       
 #       total = 
 #   
