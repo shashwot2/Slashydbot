@@ -63,10 +63,31 @@ async def play(ctx, url):
         await ctx.send("Bot is already playing")
         return
 
-#@client.command(name = "pause", help = "pauses the song")
-#async def pause(ctx):
-#    voice_client = ctx.message.voice_client
-    #if 
+@client.command(name ="resume", help = "Resumes the song")
+async def resume(ctx):
+    voice = get(client.voice_clients, guild = ctx.guild)
+
+    if not voice.is_playing():
+        voice.resume()
+        await ctx.send('Bot is resuming')
+    else:
+        await ctx.send('Bot is already playing')
+
+@client.command(name = "pause", help = "pauses the song")
+async def pause(ctx):
+    voice = get(client.voice_clients, guild = ctx.guild)
+
+    if voice.is_playing():
+        voice.pause()
+        await ctx.send("bot has been paused")
+
+@client.command()
+async def stop(ctx):
+    voice = get(client.voice_clients, guild = ctx.guild)
+
+    if voice.is_playing():
+        voice.stop()
+        await ctx.send("Stopping the song")
 
 
 # Displays currently idle and the game playing
