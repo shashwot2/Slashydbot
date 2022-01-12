@@ -15,7 +15,7 @@ players = {}
 # This function returns the version of the bot to the user, also displays the owner the bot
 
 
-@client.command(name="version")
+@client.command(name = "version")
 async def version(context):
     VersionEmbed = discord.Embed(
         title="Current version", description="The bot is in beta", color=0x00f01)
@@ -25,7 +25,7 @@ async def version(context):
 # this function has the bot join the voice channel the bot is in
 
 
-@client.command()
+@client.command(name ="join")
 async def join(ctx):
     channel = ctx.message.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
@@ -37,7 +37,7 @@ async def join(ctx):
 # Plays sound from youtube URL
 
 
-@client.command()
+@client.command(name = "play")
 async def play(ctx, url):
     DL_OPTIONS = {'format': 'bestaudio/best',
                   'noplaylist': True,
@@ -124,6 +124,10 @@ async def ban(ctx, member: discord.Member, *, reason="Ask the admin"):
 #TODO: BLACKJACK
 # @client.command(name="blackjack", help= "plays blackjack")
 # async def blackjack(ctx):
+#    ctx.message.channel.send("Enter an input: s = stand , h = hit)"
+  #   total = 0
+ #    total = 
+
 
 
 # This function returns the roman numeral's value
@@ -138,7 +142,8 @@ async def roman(ctx, num):
     if len(num) == 1:
         return dict[num[0]]
     # loops till the end of the string
-    # Note that this converter does NOT detect if the certain numeral is not valid,
+    # Note that this converter does NOT detect if the certain numeral is not valid
+    #TODO: Check for roman numeral validity through some process
     for i in range(len(num)-1):
         # Comparing one element to the other and if it detects a negative it adds it to negatives
         if dict[num[i]] < dict[num[i+1]]:
