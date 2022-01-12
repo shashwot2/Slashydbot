@@ -12,6 +12,7 @@ from youtube_dl import YoutubeDL
 client = commands.Bot(command_prefix='?')
 
 players = {}
+
 # This function returns the version of the bot to the user, also displays the owner the bot
 
 
@@ -121,13 +122,15 @@ async def ban(ctx, member: discord.Member, *, reason="Ask the admin"):
     await member.ban(reason=reason)
     await ctx.send("User {x} has been banned".format(x=member.display_name))
     await member.send("You are banned because{}".format(reason))
+
 #TODO: BLACKJACK
 # @client.command(name="blackjack", help= "plays blackjack")
 # async def blackjack(ctx):
 #    ctx.message.channel.send("Enter an input: s = stand , h = hit)"
   #   total = 0
  #    total = 
-
+#   a = {1:"A",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",10:"10",11:"J",12:"Q",13:"K"}
+#   random(1,13)
 
 
 # This function returns the roman numeral's value
