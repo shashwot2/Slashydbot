@@ -13,17 +13,12 @@ client = commands.Bot(command_prefix='?')
 
 players = {}
 
-# This function returns the version of the bot to the user, also displays the owner the bot
-
-
 @client.command(name = "version")
 async def version(context):
     VersionEmbed = discord.Embed(
         title="Current version", description="The bot is in beta", color=0x00f01)
     VersionEmbed.add_field(name="Owner", value="Slashd0t", inline=False)
     await context.channel.send(embed=VersionEmbed)
-
-# this function has the bot join the voice channel the bot is in
 
 
 @client.command(name ="join")
@@ -34,8 +29,6 @@ async def join(ctx):
         await voice.move_to(channel)
     else:
         voice = await channel.connect()
-
-# Plays sound from youtube URL
 
 
 @client.command(name = "play")
@@ -90,13 +83,11 @@ async def stop(ctx):
         await ctx.send("Stopping the song")
 
 
-# Displays currently idle and the game playing
 @client.event
 async def on_ready():
     print('We have loggin as {0.user}'.format(client))
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("Inventing skynet"))
 
-# Displays welcome message on joining the discord server the bot is currently located in
 
 
 @client.event
@@ -107,8 +98,6 @@ async def on_member_join(member):
         description=f'Welcome {member.mention}, enjoy your stay!'
     )
     await member.send(embed=mbed)
-
-# This function returns appopriate output to the input by the users, for example it says hello if the users says hello
 
 
 @client.event
@@ -129,8 +118,6 @@ async def on_message(message):
         await message.author.send("Please don't insult me :), im sure you're a great person")
     await client.process_commands(message)
 
-# kicks the member provided the user using it has permission to kick the person
-
 
 @client.command(name="kick", pass_context=True)
 @commands.has_permissions(kick_members=True)
@@ -138,7 +125,6 @@ async def kick(ctx, member: discord.Member):
     await member.kick()
     await ctx.send("User {x} has been kicked".format(x=member.display_name))
 
-# bans the member provided the user using it has the permission to ban the person
 
 
 @client.command(name="ban", pass_context=True)
@@ -173,13 +159,9 @@ async def ban(ctx, member: discord.Member, *, reason="Ask the admin"):
 async def roman(ctx, num):
     positives = 0
     negatives = 0
-    # Dictionary for Allocating each roman numeral
     dict = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
-    # processing if there is only one element
     if len(num) == 1:
         return dict[num[0]]
-    # loops till the end of the string
-    # Note that this converter does NOT detect if the certain numeral is not valid
     #TODO: Check for roman numeral validity through some process
     for i in range(len(num)-1):
         # Comparing one element to the other and if it detects a negative it adds it to negatives
