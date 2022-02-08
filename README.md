@@ -6,3 +6,4 @@ Please see the official documentation for further information: https://discordpy
 
 Needs the token from discord app to run and does not run on its own. Generated from the discord developer portal for your application.
 
+Music player modified from: https://github.com/eric-yeung/Discord-Bot
