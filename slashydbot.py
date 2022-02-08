@@ -2,7 +2,6 @@ import discord
 import os
 #import pandas
 import random
-from dotenv import load_dotenv
 from discord.ext import commands
 from discord.utils import get
 from discord import FFmpegPCMAudio
@@ -13,7 +12,10 @@ client = commands.Bot(command_prefix='?')
 
 players = {}
 
-@client.command(name = "version")
+# This function returns the version of the bot to the user, also displays the owner the bot
+
+
+@client.command(name="version")
 async def version(context):
     VersionEmbed = discord.Embed(
         title="Current version", description="The bot is in beta", color=0x00f01)
@@ -21,7 +23,7 @@ async def version(context):
     await context.channel.send(embed=VersionEmbed)
 
 
-@client.command(name ="join")
+@client.command()
 async def join(ctx):
     channel = ctx.message.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
@@ -31,7 +33,7 @@ async def join(ctx):
         voice = await channel.connect()
 
 
-@client.command(name = "play")
+@client.command()
 async def play(ctx, url):
     DL_OPTIONS = {'format': 'bestaudio/best',
                   'noplaylist': True,
@@ -42,7 +44,7 @@ async def play(ctx, url):
         'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_deplay_max 5',
         'options': '-vn'
     }
-    voice = get(client.voice_clients, guild=ctx.guild)
+    voice = get(client.voice_clients, guild = ctx.guild)
 
     if not voice.is_playing():
         with YoutubeDL(DL_OPTIONS) as ydl:
@@ -56,31 +58,7 @@ async def play(ctx, url):
         await ctx.send("Bot is already playing")
         return
 
-@client.command(name ="resume", help = "Resumes the song")
-async def resume(ctx):
-    voice = get(client.voice_clients, guild = ctx.guild)
-
-    if not voice.is_playing():
-        voice.resume()
-        await ctx.send('Bot is resuming')
-    else:
-        await ctx.send('Bot is already playing')
-
-@client.command(name = "pause", help = "pauses the song")
-async def pause(ctx):
-    voice = get(client.voice_clients, guild = ctx.guild)
-
-    if voice.is_playing():
-        voice.pause()
-        await ctx.send("bot has been paused")
-
-@client.command()
-async def stop(ctx):
-    voice = get(client.voice_clients, guild = ctx.guild)
-
-    if voice.is_playing():
-        voice.stop()
-        await ctx.send("Stopping the song")
+# Displays currently idle and the game playing
 
 
 @client.event
@@ -131,25 +109,13 @@ async def kick(ctx, member: discord.Member):
 @commands.has_permissions(kick_members=True)
 async def ban(ctx, member: discord.Member, *, reason="Ask the admin"):
     await member.ban(reason=reason)
-    await ctx.send("User {x} has been banned".format(x = member.display_name))
+    await ctx.send("User {x} has been banned".format(x=member.display_name))
     await member.send("You are banned because{}".format(reason))
-
 
 #TODO: BLACKJACK
 # @client.command(name="blackjack", help= "plays blackjack")
 # async def blackjack(ctx):
-#    a = {1:"A", 2:"2", 3:"3", 4:"4", 5:"5", 6:"6", 7:"7", 8:"8", 9:"9", 10:"10", 11:"J", 12:"Q", 13:"K"}
-#    while running = 1:
-#  
-#       dtotal = 0
-#       ptotal = 0
-#       pcardno, pcard = random.choice(list(d.values()))
-#       ptotal = ptotal + pcardno
-#       ctx.message.channel.send("Enter an input: s = stand , h = hit", Reply timeout is 30 seconds)
-#       msg = await client.wait_for("message", check = check, timeout = 30)
-#       
-#       total = 
-#   
+#   a = {1:"A", 2:"2", 3:"3", 4:"4", 5:"5", 6:"6", 7:"7", 8:"8", 9:"9", 10:"10", 11:"J", 12:"Q",13:"K"}
 #   random(1,13)
 
 
@@ -162,7 +128,8 @@ async def roman(ctx, num):
     dict = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
     if len(num) == 1:
         return dict[num[0]]
-    #TODO: Check for roman numeral validity through some process
+    # loops till the end of the string
+    # Note that this converter does NOT detect if the certain numeral is not valid,
     for i in range(len(num)-1):
         # Comparing one element to the other and if it detects a negative it adds it to negatives
         if dict[num[i]] < dict[num[i+1]]:
@@ -194,10 +161,8 @@ async def dice(ctx, amount: int = 1, sides: int = 6):
         roll = (random.randint(1, sides))
         diceEmbed.add_field(
             name=f"Roll number {i + 1}", value=roll, inline=False)
-        if roll == 1:
-            diceEmbed.set_footer(text="FUMBLE")
-
+    await ctx.message.channel.send("Rolling a "+ str(sides) + " sided dice")
     await ctx.message.channel.send(embed=diceEmbed)
 
 
-client.run('')
+client.run('NzUxMDIxMzQ1ODE4NTQyMTIw.X1DBIg.o_Uwxa8Q0m9YuvhiGFToM56kOXg')
