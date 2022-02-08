@@ -1,6 +1,5 @@
 import discord
 import os
-#import pandas
 import random
 from discord.ext import commands
 from discord.utils import get
@@ -32,7 +31,7 @@ async def join(ctx):
     else:
         voice = await channel.connect()
 
-
+# This discord play feature is from : https://github.com/eric-yeung/Discord-Bot , his version is not working. This is planned to be a playable-improvement
 @client.command()
 async def play(ctx, url):
     DL_OPTIONS = {'format': 'bestaudio/best',
@@ -50,7 +49,7 @@ async def play(ctx, url):
         with YoutubeDL(DL_OPTIONS) as ydl:
             info = ydl.extract_info(url, download=False)
         URL = info['url']
-        voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
+        voice.play(discord.FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
         voice.is_playing()
         await ctx.send('bot is playing')
 
@@ -58,9 +57,34 @@ async def play(ctx, url):
         await ctx.send("Bot is already playing")
         return
 
+
+@client.command(name='resume', help='Resumes the song')
+async def resume(ctx):
+    voice = ctx.message.guild.voice_client
+    if voice.is_paused():
+        voice.resume()
+        await ctx.send("Resuming")
+    else:
+        await ctx.send("The bot was not playing anything before this. Use play command")
+
+@client.command()
+async def pause(ctx):
+    voice = get(client.voice_clients, guild=ctx.guild)
+
+    if voice.is_playing():
+        voice.pause()
+        await ctx.send('Bot has been paused')
+
+@client.command(name='stop', help='Stops the song')
+async def stop(ctx):
+    voice = ctx.message.guild.voice_client
+    if voice.is_playing():
+        voice.stop()
+        await ctx.send("The bot is stopping")
+    else:
+        await ctx.send("The bot is not playing anything at the moment.")
+
 # Displays currently idle and the game playing
-
-
 @client.event
 async def on_ready():
     print('We have loggin as {0.user}'.format(client))
@@ -88,8 +112,8 @@ async def on_message(message):
         await message.channel.send("hola, amigo")
     elif message.content == "What is your version slashy d?":
         VersionEmbed = discord.Embed(
-            title="Current version", description="The bot is in beta", color=0x00f01)
-        VersionEmbed.add_field(name="Owner", value="Slashd0t", inline=False)
+            title = "Current version", description = "The bot is in beta", color=0x00f01)
+        VersionEmbed.add_field(name = "Owner", value="Slashd0t", inline=False)
         await message.channel.send(embed=VersionEmbed)
 
     if message.content == "slashydbot is stupid":
@@ -161,7 +185,7 @@ async def dice(ctx, amount: int = 1, sides: int = 6):
         roll = (random.randint(1, sides))
         diceEmbed.add_field(
             name=f"Roll number {i + 1}", value=roll, inline=False)
-    await ctx.message.channel.send("Rolling a "+ str(sides) + " sided dice")
+    await ctx.message.channel.send("Rolling "+ str(sides) + " sided dice")
     await ctx.message.channel.send(embed=diceEmbed)
 
 
