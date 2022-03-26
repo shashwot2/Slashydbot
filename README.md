@@ -1,5 +1,7 @@
 # Slashydbot
-A discord bot running on discord.py that I made for fun.
+A discord bot running on discord.py that I made for fun. 
+
+To run you need to clone the repo/Download then run it on python
 
 Please see the official documentation for further information: https://discordpy.readthedocs.io/en/stable/
 
