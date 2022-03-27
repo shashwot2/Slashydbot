@@ -9,10 +9,8 @@ from youtube_dl import YoutubeDL
 
 client = commands.Bot(command_prefix='?')
 
-players = {}
-
 # This function returns the version of the bot to the user, also displays the owner the bot
-
+players = {}
 
 @client.command(name="version")
 async def version(context):
@@ -20,7 +18,6 @@ async def version(context):
         title="Current version", description="The bot is in beta", color=0x00f01)
     VersionEmbed.add_field(name="Owner", value="Slashd0t", inline=False)
     await context.channel.send(embed=VersionEmbed)
-
 
 @client.command()
 async def join(ctx):
@@ -31,7 +28,7 @@ async def join(ctx):
     else:
         voice = await channel.connect()
 
-# This discord play feature is from : https://github.com/eric-yeung/Discord-Bot , his version is not working. This is planned to be a playable-improvement
+# This discord play feature is forked from : https://github.com/eric-yeung/Discord-Bot  
 @client.command()
 async def play(ctx, url):
     DL_OPTIONS = {'format': 'bestaudio/best',
@@ -56,7 +53,6 @@ async def play(ctx, url):
     else:
         await ctx.send("Bot is already playing")
         return
-
 
 @client.command(name='resume', help='Resumes the song')
 async def resume(ctx):
@@ -90,8 +86,6 @@ async def on_ready():
     print('We have loggin as {0.user}'.format(client))
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("Inventing skynet"))
 
-
-
 @client.event
 async def on_member_join(member):
     mbed = discord.Embed(
@@ -100,7 +94,6 @@ async def on_member_join(member):
         description=f'Welcome {member.mention}, enjoy your stay!'
     )
     await member.send(embed=mbed)
-
 
 @client.event
 async def on_message(message):
@@ -120,14 +113,11 @@ async def on_message(message):
         await message.author.send("Please don't insult me :), im sure you're a great person")
     await client.process_commands(message)
 
-
 @client.command(name="kick", pass_context=True)
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member):
     await member.kick()
     await ctx.send("User {x} has been kicked".format(x=member.display_name))
-
-
 
 @client.command(name="ban", pass_context=True)
 @commands.has_permissions(kick_members=True)
@@ -163,6 +153,7 @@ async def roman(ctx, num):
     positives = positives + dict[num[len(num)-1]]
 
     await ctx.message.channel.send(positives - negatives)
+
 # TODO: make this below function workable, currently doesn't support as int and string
 # @client.command(name = "secondstohours",help = "Converts seconds to hours, minutes and remanining to seconds based on the format 00:00:00")
 # async def secondstohours(ctx,num):
