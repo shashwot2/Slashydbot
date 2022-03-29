@@ -1,11 +1,12 @@
-import discord
 import os
+import discord
 import random
 from discord.ext import commands
 from discord.utils import get
 from discord import FFmpegPCMAudio
 from discord import TextChannel
 from youtube_dl import YoutubeDL
+from Webserver import Webserver
 
 client = commands.Bot(command_prefix='?')
 
@@ -177,7 +178,10 @@ async def dice(ctx, amount: int = 1, sides: int = 6):
         diceEmbed.add_field(
             name=f"Roll number {i + 1}", value=roll, inline=False)
     await ctx.message.channel.send("Rolling "+ str(sides) + " sided dice")
+
+
     await ctx.message.channel.send(embed=diceEmbed)
+my_secret = os.environ['Discordbotkey']
+Webserver()
+client.run(my_secret)
 
-
-client.run('NzUxMDIxMzQ1ODE4NTQyMTIw.X1DBIg.o_Uwxa8Q0m9YuvhiGFToM56kOXg')
