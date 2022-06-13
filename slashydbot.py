@@ -1,6 +1,7 @@
 import os
 import discord
 import random
+import requests
 from discord.ext import commands
 from discord.utils import get
 from discord import FFmpegPCMAudio
@@ -154,7 +155,6 @@ async def roman(ctx, num):
     positives = positives + dict[num[len(num)-1]]
 
     await ctx.message.channel.send(positives - negatives)
-
 # TODO: make this below function workable, currently doesn't support as int and string
 # @client.command(name = "secondstohours",help = "Converts seconds to hours, minutes and remanining to seconds based on the format 00:00:00")
 # async def secondstohours(ctx,num):
@@ -167,6 +167,12 @@ async def roman(ctx, num):
 #    g = str(hours).zfill(2) + ":" + str(minutes).zfill(2) + ":" + str(seconds).zfill(2)
 #    await ctx.message.channel.send(g)
 
+@client.command(name="kanye", help="Displays a random kanye quote")
+async def kanye(ctx):
+    url = "https://api.kanye.rest"
+    response = requests.get(url)
+    data = response.json()
+    await ctx.message.channel.send(data["quote"])
 
 @client.command(name="dice", help='Rolls a dice, Please input a number,Then input the side of the dice ')
 async def dice(ctx, amount: int = 1, sides: int = 6):
