@@ -8,11 +8,35 @@ from discord import FFmpegPCMAudio
 from discord import TextChannel
 from youtube_dl import YoutubeDL
 from Webserver import Webserver
-
+import openai
 client = commands.Bot(command_prefix='?')
 
 # This function returns the version of the bot to the user, also displays the owner the bot
 players = {}
+
+
+async def chatgpt(prompt, persona):
+    completions = openai.Completion.create(
+        model="gpt-3.5-turbo",
+        prompt=f"{persona}\n{prompt}",
+        max_tokens=150,
+        n=1,
+        stop=None,
+        temperature=0.9,
+        api_key='apikey'
+    )
+    message = completions["choices"][0]["text"].strip()
+    return message
+
+
+@client.command(name="pirate-ai", help="This command will pretend it's pirate AI from openai's GPT-3.5")
+async def pirate_ai(context, *, message: str):
+    persona = "You are a pirate that plunders loot over the high seas and likes to drink rum"
+
+    response = await chatgpt(message, persona)
+
+    await context.channel.send(response)
+
 
 @client.command(name="version")
 async def version(context):
@@ -20,6 +44,7 @@ async def version(context):
         title="Current version", description="The bot is in beta", color=0x00f01)
     VersionEmbed.add_field(name="Owner", value="Slashd0t", inline=False)
     await context.channel.send(embed=VersionEmbed)
+
 
 @client.command()
 async def join(ctx):
@@ -30,7 +55,9 @@ async def join(ctx):
     else:
         voice = await channel.connect()
 
-# This discord play feature is forked from : https://github.com/eric-yeung/Discord-Bot  
+# This discord play feature is forked from : https://github.com/eric-yeung/Discord-Bot
+
+
 @client.command()
 async def play(ctx, url):
     DL_OPTIONS = {'format': 'bestaudio/best',
@@ -42,7 +69,7 @@ async def play(ctx, url):
         'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_deplay_max 5',
         'options': '-vn'
     }
-    voice = get(client.voice_clients, guild = ctx.guild)
+    voice = get(client.voice_clients, guild=ctx.guild)
 
     if not voice.is_playing():
         with YoutubeDL(DL_OPTIONS) as ydl:
@@ -56,6 +83,7 @@ async def play(ctx, url):
         await ctx.send("Bot is already playing")
         return
 
+
 @client.command(name='resume', help='Resumes the song')
 async def resume(ctx):
     voice = ctx.message.guild.voice_client
@@ -65,6 +93,7 @@ async def resume(ctx):
     else:
         await ctx.send("The bot was not playing anything before this. Use play command")
 
+
 @client.command()
 async def pause(ctx):
     voice = get(client.voice_clients, guild=ctx.guild)
@@ -72,6 +101,7 @@ async def pause(ctx):
     if voice.is_playing():
         voice.pause()
         await ctx.send('Bot has been paused')
+
 
 @client.command(name='stop', help='Stops the song')
 async def stop(ctx):
@@ -83,10 +113,13 @@ async def stop(ctx):
         await ctx.send("The bot is not playing anything at the moment.")
 
 # Displays currently idle and the game playing
+
+
 @client.event
 async def on_ready():
     print('We have loggin as {0.user}'.format(client))
     await client.change_presence(status=discord.Status.idle, activity=discord.Game("Inventing skynet"))
+
 
 @client.event
 async def on_member_join(member):
@@ -96,6 +129,7 @@ async def on_member_join(member):
         description=f'Welcome {member.mention}, enjoy your stay!'
     )
     await member.send(embed=mbed)
+
 
 @client.event
 async def on_message(message):
@@ -107,19 +141,21 @@ async def on_message(message):
         await message.channel.send("hola, amigo")
     elif message.content == "What is your version slashy d?":
         VersionEmbed = discord.Embed(
-            title = "Current version", description = "The bot is in beta", color=0x00f01)
-        VersionEmbed.add_field(name = "Owner", value="Slashd0t", inline=False)
+            title="Current version", description="The bot is in beta", color=0x00f01)
+        VersionEmbed.add_field(name="Owner", value="Slashd0t", inline=False)
         await message.channel.send(embed=VersionEmbed)
 
     if message.content == "slashydbot is stupid":
         await message.author.send("Please don't insult me :), im sure you're a great person")
     await client.process_commands(message)
 
+
 @client.command(name="kick", pass_context=True)
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member):
     await member.kick()
     await ctx.send("User {x} has been kicked".format(x=member.display_name))
+
 
 @client.command(name="ban", pass_context=True)
 @commands.has_permissions(kick_members=True)
@@ -128,7 +164,7 @@ async def ban(ctx, member: discord.Member, *, reason="Ask the admin"):
     await ctx.send("User {x} has been banned".format(x=member.display_name))
     await member.send("You are banned because{}".format(reason))
 
-#TODO: BLACKJACK
+# TODO: BLACKJACK
 # @client.command(name="blackjack", help= "plays blackjack")
 # async def blackjack(ctx):
 #   a = {1:"A", 2:"2", 3:"3", 4:"4", 5:"5", 6:"6", 7:"7", 8:"8", 9:"9", 10:"10", 11:"J", 12:"Q",13:"K"}
@@ -167,12 +203,14 @@ async def roman(ctx, num):
 #    g = str(hours).zfill(2) + ":" + str(minutes).zfill(2) + ":" + str(seconds).zfill(2)
 #    await ctx.message.channel.send(g)
 
+
 @client.command(name="kanye", help="Displays a random kanye quote")
 async def kanye(ctx):
     url = "https://api.kanye.rest"
     response = requests.get(url)
     data = response.json()
     await ctx.message.channel.send(data["quote"])
+
 
 @client.command(name="dice", help='Rolls a dice, Please input a number,Then input the side of the dice ')
 async def dice(ctx, amount: int = 1, sides: int = 6):
@@ -183,11 +221,9 @@ async def dice(ctx, amount: int = 1, sides: int = 6):
         roll = (random.randint(1, sides))
         diceEmbed.add_field(
             name=f"Roll number {i + 1}", value=roll, inline=False)
-    await ctx.message.channel.send("Rolling "+ str(sides) + " sided dice")
-
+    await ctx.message.channel.send("Rolling " + str(sides) + " sided dice")
 
     await ctx.message.channel.send(embed=diceEmbed)
-my_secret = os.environ['Discordbotkey']
+my_secret = 'secret'
 Webserver()
 client.run(my_secret)
-
