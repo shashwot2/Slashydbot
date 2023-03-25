@@ -9,35 +9,40 @@ from discord import TextChannel
 from youtube_dl import YoutubeDL
 from Webserver import Webserver
 import openai
-client = commands.Bot(command_prefix='?')
 
-# This function returns the version of the bot to the user, also displays the owner the bot
-players = {}
+# initalize the discord client with default intents
+client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
 
 async def chatgpt(prompt, persona):
-    completions = openai.Completion.create(
+    completions = openai.ChatCompletion.create(
+        messages=[
+            {"role:": "system", "content": persona},
+            {"role:": "user", "content": prompt},
+        ],
         model="gpt-3.5-turbo",
-        prompt=f"{persona}\n{prompt}",
-        max_tokens=150,
-        n=1,
-        stop=None,
-        temperature=0.9,
-        api_key='apikey'
+        # max_tokens=50,
+        # n=1,
+        temperature=0.8,
+        api_key='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'
     )
-    message = completions["choices"][0]["text"].strip()
+    print(completions)
+    message = completions["choices"]["message"]["content"].strip()
     return message
 
 
-@client.command(name="pirate-ai", help="This command will pretend it's pirate AI from openai's GPT-3.5")
+# client = discord.client(intents=discord.Intents.default())
+@client.command(name="pirate-ai", help="This command will pretend it's pirate AI using openai's GPT-3.5")
 async def pirate_ai(context, *, message: str):
     persona = "You are a pirate that plunders loot over the high seas and likes to drink rum"
-
+    if len(message) > 50:
+        await context.channel.send("Please keep your message under 50 characters")
+        return
     response = await chatgpt(message, persona)
-
     await context.channel.send(response)
 
 
+# This function returns the version of the bot to the user, also displays the owner the bot
 @client.command(name="version")
 async def version(context):
     VersionEmbed = discord.Embed(
@@ -224,6 +229,6 @@ async def dice(ctx, amount: int = 1, sides: int = 6):
     await ctx.message.channel.send("Rolling " + str(sides) + " sided dice")
 
     await ctx.message.channel.send(embed=diceEmbed)
-my_secret = 'secret'
+my_secret = 'NzUxMDIxMzQ1ODE4NTQyMTIw.X1DBIg.RGrTCmeDYYOeurynk4-95-6TIAg'
 Webserver()
 client.run(my_secret)
