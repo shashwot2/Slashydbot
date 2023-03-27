@@ -22,20 +22,6 @@ intents.presences = False
 client = commands.Bot(command_prefix='?', intents=intents)
 
 
-async def chatgpt(prompt, persona):
-    completions = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": persona},
-            {"role": "user", "content": prompt},
-        ],
-        max_tokens=175,
-        n=1,
-        temperature=0.8,
-        api_key=os.getenv("OPENAI_API_KEY"),
-    )
-    message = completions["choices"][0]["message"]["content"]
-    return message
 
 
 # client = discord.client(intents=discord.Intents.default())
