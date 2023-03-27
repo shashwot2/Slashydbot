@@ -6,28 +6,35 @@ from discord.ext import commands
 from discord.utils import get
 from discord import FFmpegPCMAudio
 from discord import TextChannel
+from discord import Intents
 from youtube_dl import YoutubeDL
 from Webserver import Webserver
+from dotenv import load_dotenv
 import openai
 
-# initalize the discord client with default intents
-client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
+# load env file
+load_dotenv()
+
+# Specifying intents to prevent the bot from monitoring everything
+intents = Intents.default()
+intents.typing = False
+intents.presences = False
+client = commands.Bot(command_prefix='?', intents=intents)
 
 
 async def chatgpt(prompt, persona):
     completions = openai.ChatCompletion.create(
-        messages=[
-            {"role:": "system", "content": persona},
-            {"role:": "user", "content": prompt},
-        ],
         model="gpt-3.5-turbo",
-        # max_tokens=50,
-        # n=1,
+        messages=[
+            {"role": "system", "content": persona},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=175,
+        n=1,
         temperature=0.8,
-        api_key='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'
+        api_key=os.getenv("OPENAI_API_KEY"),
     )
-    print(completions)
-    message = completions["choices"]["message"]["content"].strip()
+    message = completions["choices"][0]["message"]["content"]
     return message
 
 
@@ -35,8 +42,8 @@ async def chatgpt(prompt, persona):
 @client.command(name="pirate-ai", help="This command will pretend it's pirate AI using openai's GPT-3.5")
 async def pirate_ai(context, *, message: str):
     persona = "You are a pirate that plunders loot over the high seas and likes to drink rum"
-    if len(message) > 50:
-        await context.channel.send("Please keep your message under 50 characters")
+    if len(message) > 75:
+        await context.channel.send("Please keep your message under 75 characters")
         return
     response = await chatgpt(message, persona)
     await context.channel.send(response)
@@ -229,6 +236,5 @@ async def dice(ctx, amount: int = 1, sides: int = 6):
     await ctx.message.channel.send("Rolling " + str(sides) + " sided dice")
 
     await ctx.message.channel.send(embed=diceEmbed)
-my_secret = 'NzUxMDIxMzQ1ODE4NTQyMTIw.X1DBIg.RGrTCmeDYYOeurynk4-95-6TIAg'
 Webserver()
-client.run(my_secret)
+client.run(os.getenv('DISCORD_APP_KEY'))
