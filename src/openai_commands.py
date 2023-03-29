@@ -1,4 +1,3 @@
-# @client.command(name="pirate-ai", help="This command will pretend it's pirate AI using openai's GPT-3.5")
 from utils import chatgptcfg
 
 

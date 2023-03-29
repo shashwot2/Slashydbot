@@ -6,8 +6,6 @@ def register_bot_admin_commands(client):
     client.command(name="kick", pass_context=True)(kick)
     client.command(name="ban", pass_context=True)(ban)
 
-# @client.command(name="kick", pass_context=True)
-
 
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member):

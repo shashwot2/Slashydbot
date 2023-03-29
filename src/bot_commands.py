@@ -14,17 +14,29 @@ def register_bot_commands(client):
         name="join",
         help="Joins the bot to the voice channel ")(join)
     client.command(name="play", help="Plays the specified song")(play)
-    client.command(name="resume", help="Resumes the song that has been paused")(resume)
-    client.command(name="pause", help="Pauses the song that is currently playing")(pause)
+    client.command(
+        name="resume",
+        help="Resumes the song that has been paused")(resume)
+    client.command(
+        name="pause",
+        help="Pauses the song that is currently playing")(pause)
     client.command(name="stop", help="stops the song that's playing")(stop)
-    client.command(name="roman", help="Converts a Roman numeral to a Hindu-Arabic numeral")(roman)
-    client.command(name="kanye", help="Queries a free api to generate a random kanye quote")(kanye)
-    client.command(name="dice", help= "Rolls a dice. First input is number of dice(default 1) and 2nd is custom dice size(default 6)")(dice)
-    client.command(name="pirate-ai", help="This command will pretend it's a pirate(uses gpt3.5)")(pirate_ai)
+    client.command(
+        name="roman",
+        help="Converts a Roman numeral to a Hindu-Arabic numeral")(roman)
+    client.command(
+        name="kanye",
+        help="Queries a free api to generate a random kanye quote")(kanye)
+    client.command(
+        name="dice",
+        help="Rolls a dice. First input is number of dice(default 1) and 2nd is custom dice size(default 6)")(dice)
+    client.command(
+        name="pirate-ai",
+        help="This command will pretend it's a pirate(uses gpt3.5)")(pirate_ai)
 
 
-# This function returns the version of the bot to the user, also displays the owner the bot
-# @client.command(name="version")
+# This function returns the version of the bot to the user, also displays
+# the owner the bot
 async def version(context):
     VersionEmbed = discord.Embed(
         title="Current version",
@@ -34,7 +46,6 @@ async def version(context):
     await context.channel.send(embed=VersionEmbed)
 
 
-# @client.command()
 async def join(client, ctx):
     channel = ctx.message.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
@@ -47,7 +58,6 @@ async def join(client, ctx):
 # https://github.com/eric-yeung/Discord-Bot
 
 
-# @client.command()
 async def play(client, ctx, url):
     DL_OPTIONS = {'format': 'bestaudio/best',
                   'noplaylist': True,
@@ -72,7 +82,6 @@ async def play(client, ctx, url):
         return
 
 
-# @client.command(name='resume', help='Resumes the song')
 async def resume(ctx):
     voice = ctx.message.guild.voice_client
     if voice.is_paused():
@@ -82,7 +91,6 @@ async def resume(ctx):
         await ctx.send("The bot was not playing anything before this. Use play command")
 
 
-# @client.command()
 async def pause(client, ctx):
     voice = get(client.voice_clients, guild=ctx.guild)
 
@@ -91,7 +99,6 @@ async def pause(client, ctx):
         await ctx.send('Bot has been paused')
 
 
-# @client.command(name='stop', help='Stops the song')
 async def stop(ctx):
     voice = ctx.message.guild.voice_client
     if voice.is_playing():
@@ -122,14 +129,11 @@ async def roman(ctx, num):
     await ctx.message.channel.send(positives - negatives)
 
 
-# @client.command(name="kanye", help="Displays a random kanye quote")
 async def kanye(ctx):
     url = "https://api.kanye.rest"
     response = requests.get(url)
     data = response.json()
     await ctx.message.channel.send(data["quote"])
-
-# @client.command(name="dice", help='Rolls a dice, Please input a number,Then input the side of the dice ')
 
 
 async def dice(ctx, amount: int = 1, sides: int = 6):
