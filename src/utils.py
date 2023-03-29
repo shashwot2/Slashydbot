@@ -1,11 +1,8 @@
 import os
 import openai
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
-async def chatgpt(prompt, persona):
+async def chatgptcfg(prompt, persona):
     completions = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[

@@ -1,7 +1,7 @@
 from flask import Flask
 from threading import Thread
 
-#python discord bot code above ^^
+# python discord bot code above ^^
 app = Flask('')
 
 
