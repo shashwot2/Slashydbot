@@ -1,1 +1,7 @@
-# To ensure app dependencies are ported from your virtual environment/host machine into your container, run 'pip freeze > requirements.txt' in the terminal to overwrite this file
+discord.py==2.2.2
+Flask==2.1.2
+openai==0.27.2
+python-dotenv==1.0.0
+requests==2.22.0
+waitress==2.1.2
+youtube_dl==2021.12.17
