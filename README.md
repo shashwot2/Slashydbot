@@ -8,7 +8,10 @@ A discord bot running on discord.py.
 
 # Installation
 1. Clone the repo
-2. Install the requirements
+2. Install the requirements through
+```
+pip install -r requirements.txt
+```
 3. Run the bot through
 ```
 python3 src/main.py
