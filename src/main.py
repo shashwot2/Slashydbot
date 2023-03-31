@@ -15,6 +15,7 @@ load_dotenv()
 intents = Intents.default()
 intents.typing = False
 intents.presences = False
+intents.message_content = True
 client = commands.Bot(command_prefix='?', intents=intents)
 
 register_bot_commands(client)
