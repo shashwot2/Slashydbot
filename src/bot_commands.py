@@ -3,7 +3,7 @@ import requests
 import discord
 from youtube_dl import YoutubeDL
 from discord.utils import get
-from openai_commands import pirate_ai
+from src.openai_commands import pirate_ai
 
 # Pass client to every function at once
 
