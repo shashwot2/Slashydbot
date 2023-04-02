@@ -1,0 +1,9 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/Slashydbot/slashydbot:$SHORT_SHA', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/Slashydbot/slashydbot:$SHORT_SHA']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['compute', 'ssh', 'basic', '--zone', 'asia-southeast1-b', '--command', 'docker pull gcr.io/Slashydbot/slashydbot:$SHORT_SHA && docker stop slashydbot && docker rm slashydbot && docker run -d --name slashydbot gcr.io/Slashydbot/slashydbot:$SHORT_SHA']
+images:
+- 'gcr.io/Slashydbot/slashydbot:$SHORT_SHA'
