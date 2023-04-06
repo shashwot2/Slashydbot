@@ -1,4 +1,4 @@
-from src.utils import chatgptcfg
+from utils import chatgptcfg
 
 
 async def pirate_ai(context, *, message: str):

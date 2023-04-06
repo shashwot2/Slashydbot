@@ -3,17 +3,17 @@ import requests
 import discord
 from youtube_dl import YoutubeDL
 from discord.utils import get
-from src.openai_commands import pirate_ai
+from openai_commands import pirate_ai
 
 # Pass client to every function at once
 
 
 def register_bot_commands(client):
     client.command(name="version", help="Prints version of bot")(version)
-    client.command(
-        name="join",
-        help="Joins the bot to the voice channel ")(join)
-    client.command(name="play", help="Plays the specified song")(play)
+    # client.command(
+    #     name="join",
+    #     help="Joins the bot to the voice channel ")(join)
+    # client.command(name="play", help="Plays the specified song")(play)
     client.command(
         name="resume",
         help="Resumes the song that has been paused")(resume)
@@ -59,11 +59,6 @@ async def join(client, ctx):
 
 
 async def play(client, ctx, url):
-    DL_OPTIONS = {'format': 'bestaudio/best',
-                  'noplaylist': True,
-                  'extractaudio': True,
-                  'audioformat': 'mp3'
-                  }
     FFMPEG_OPTIONS = {
         'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_deplay_max 5',
         'options': '-vn'}
